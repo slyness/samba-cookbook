@@ -32,7 +32,7 @@ unless node["samba"]["passdb_backend"] =~ /^ldapsam/
   users = search("users", "*:*")
 end
 
-if node.platform = "centos" and node.platform_version = "6.5"
+if node.platform == "centos" and node.platform_version == "6.5"
   package "samba"
 else
   package value_for_platform(
