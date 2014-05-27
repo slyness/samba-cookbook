@@ -32,15 +32,11 @@ unless node["samba"]["passdb_backend"] =~ /^ldapsam/
   users = search("users", "*:*")
 end
 
-if node.platform == "centos" and node.platform_version == "6.5"
-  package "samba"
-else
-  package value_for_platform(
-    ["ubuntu", "debian", "arch"] => { "default" => "samba" },
-    ["redhat", "centos", "fedora", "scientific", "amazon"] => { "default" => "samba3x" },
-    "default" => "samba"
-  )
-end
+package value_for_platform(
+  ["ubuntu", "debian", "arch"] => { "default" => "samba" },
+  ["redhat", "centos", "fedora", "scientific", "amazon"] => { "default" => "samba3x", "6.5" => "samba" },
+  "default" => "samba"
+)
 
 svcs = value_for_platform(
   ["ubuntu", "debian"] => { "default" => ["smbd", "nmbd"] },
